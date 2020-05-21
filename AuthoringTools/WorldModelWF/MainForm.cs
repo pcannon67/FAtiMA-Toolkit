@@ -2,28 +2,27 @@
 using System.Data;
 using System.Linq;
 using System.Windows.Forms;
+using AutobiographicMemory;
+using WellFormedNames;
 using WorldModel;
 using WorldModel.DTOs;
 
 namespace WorldModelWF
 {
-    public partial class MainForm : BaseWorldModelForm
+    public partial class MainForm : Form
     {
-        private WorldModelAsset _wm;
+        private WorldModelAsset _wmAsset;
 
         public MainForm()
         {
             InitializeComponent();
+
         }
 
-        #region Overrides of BaseAssetForm<WorldModelAsset>
 
-        protected override void OnAssetDataLoaded(WorldModelAsset asset)
+        protected void OnAssetDataLoaded(WorldModelAsset asset)
         {
-            if (asset == null)
-                return;
-
-            _wm = asset;
+            _wmAsset = asset;
 
             DataSet DS = new DataSet();
 
@@ -74,14 +73,13 @@ namespace WorldModelWF
                 addEffectDTO.Enabled = true;
             }
 
-            _wasModified = false;
+            
         }
-
-        #endregion Overrides of BaseAssetForm<WorldModelAsset>
+        
 
         private void buttonAddEvent_Click(object sender, EventArgs e)
         {
-            var ev = new AddOrEditActionTemplateForm(LoadedAsset, null);
+            var ev = new AddOrEditActionTemplateForm(_wmAsset, null);
             ev.ShowDialog(this);
             RefreshEventList();
         }
@@ -94,17 +92,16 @@ namespace WorldModelWF
         {
             var index = dataGridViewEventTemplates.SelectedRows[0].Index;
 
-            var eventTemp = LoadedAsset.GetAllActions().ElementAt(index);
-            var ef = new AddorEditEffect(LoadedAsset, eventTemp.Item1, -1, new EffectDTO());
+            var eventTemp = _wmAsset.GetAllActions().ElementAt(index);
+            var ef = new AddorEditEffect(_wmAsset, eventTemp.Item1, -1, new EffectDTO());
             ef.ShowDialog(this);
-            SetModified();
             dataGridViewEventTemplates_SelectionChanged(sender, e);
             RefreshEventList();
         }
 
         private void dataGridViewEventTemplates_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (_wm.GetAllEventEffects().Count > 0)
+            if (_wmAsset.GetAllEventEffects().Count > 0)
             {
                button1.Enabled = true;
                 button2.Enabled = true;
@@ -121,14 +118,14 @@ namespace WorldModelWF
 
             ds.Tables[0].Clear();
 
-            foreach (var a in LoadedAsset.GetAllActions())
+            foreach (var a in _wmAsset.GetAllActions())
             {
                 var aName = a.Item1;
                 var aPriority = a.Item2;
                 ds.Tables[0].Rows.Add(aName.GetNTerm(3), aName.GetNTerm(2), aName.GetNTerm(4),aPriority);
             }
 
-               if (_wm.GetAllEventEffects().Count > 0)
+               if (_wmAsset.GetAllEventEffects().Count > 0)
             {
                button1.Enabled = true;
                 button2.Enabled = true;
@@ -149,15 +146,15 @@ namespace WorldModelWF
                 index = dataGridViewEventTemplates.SelectedRows[0].Index;
 
             dataGridViewEffects.DataSource = null;
-            if (LoadedAsset != null)
+            if (_wmAsset != null)
             {
-                if (LoadedAsset.GetAllEventEffects().Count == 0)
+                if (_wmAsset.GetAllEventEffects().Count == 0)
                     return;
-                var evt = LoadedAsset.GetAllEventEffects().Keys.ElementAt(index);
+                var evt = _wmAsset.GetAllEventEffects().Keys.ElementAt(index);
 
-                if (LoadedAsset.GetAllEventEffects()[evt].Count > 0)
+                if (_wmAsset.GetAllEventEffects()[evt].Count > 0)
                 {
-                    dataGridViewEffects.DataSource = LoadedAsset.GetAllEventEffects().ElementAt(index).Value;
+                    dataGridViewEffects.DataSource = _wmAsset.GetAllEventEffects().ElementAt(index).Value;
                     dataGridViewEffects.Columns[0].Visible = false;
                     dataGridViewEffects.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
 
@@ -184,15 +181,15 @@ namespace WorldModelWF
                 index = dataGridViewEventTemplates.SelectedRows[0].Index;
 
             dataGridViewEffects.DataSource = null;
-            if (LoadedAsset != null)
+            if (_wmAsset != null)
             {
-                if (LoadedAsset.GetAllEventEffects().Count == 0)
+                if (_wmAsset.GetAllEventEffects().Count == 0)
                     return;
-                var evt = LoadedAsset.GetAllEventEffects().Keys.ElementAt(index);
+                var evt = _wmAsset.GetAllEventEffects().Keys.ElementAt(index);
 
-                if (LoadedAsset.GetAllEventEffects()[evt].Count > 0)
+                if (_wmAsset.GetAllEventEffects()[evt].Count > 0)
                 {
-                    dataGridViewEffects.DataSource = LoadedAsset.GetAllEventEffects().ElementAt(index).Value;
+                    dataGridViewEffects.DataSource = _wmAsset.GetAllEventEffects().ElementAt(index).Value;
                     dataGridViewEffects.Columns[0].Visible = false;
                     dataGridViewEffects.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
 
@@ -215,12 +212,12 @@ namespace WorldModelWF
         {
             var index = dataGridViewEventTemplates.SelectedRows[0].Index;
 
-            var actionTemp = LoadedAsset.GetAllActions().ElementAt(index).Item1;
-            var priority = LoadedAsset.GetAllActions().ElementAt(index).Item2;
+            var actionTemp = _wmAsset.GetAllActions().ElementAt(index).Item1;
+            var priority = _wmAsset.GetAllActions().ElementAt(index).Item2;
 
-            var ev = new AddOrEditActionTemplateForm(LoadedAsset, actionTemp, priority);
+            var ev = new AddOrEditActionTemplateForm(_wmAsset, actionTemp, priority);
             ev.ShowDialog(this);
-            SetModified();
+            
             RefreshEventList();
         }
 
@@ -230,17 +227,17 @@ namespace WorldModelWF
 
             var index = dataGridViewEventTemplates.SelectedRows[0].Index;
 
-            var actionTemp = LoadedAsset.GetAllActions().ElementAt(index).Item1;
+            var actionTemp = _wmAsset.GetAllActions().ElementAt(index).Item1;
 
             index2 = dataGridViewEffects.SelectedRows[0].Index;
 
-            var effect = LoadedAsset.GetAllEventEffects()[actionTemp].ElementAt(index2);
+            var effect = _wmAsset.GetAllEventEffects()[actionTemp].ElementAt(index2);
 
-            var ef = new AddorEditEffect(LoadedAsset, actionTemp, index2, effect.ToDTO());
+            var ef = new AddorEditEffect(_wmAsset, actionTemp, index2, effect.ToDTO());
 
             ef.ShowDialog(this);
 
-            SetModified();
+            
 
             dataGridViewEventTemplates_SelectionChanged(sender, e);
         }
@@ -249,10 +246,10 @@ namespace WorldModelWF
         {
             var index = dataGridViewEventTemplates.SelectedRows[0].Index;
 
-            var actionTemp = LoadedAsset.GetAllActions().ElementAt(index).Item1;
+            var actionTemp = _wmAsset.GetAllActions().ElementAt(index).Item1;
 
-            LoadedAsset.RemoveAction(actionTemp);
-            SetModified();
+            _wmAsset.RemoveAction(actionTemp);
+            
 
             RefreshEventList();
         }
@@ -261,14 +258,14 @@ namespace WorldModelWF
         {
             var index = dataGridViewEventTemplates.SelectedRows[0].Index;
 
-            var eventTemp = LoadedAsset.GetAllActions().ElementAt(index).Item1;
+            var eventTemp = _wmAsset.GetAllActions().ElementAt(index).Item1;
 
             var index2 = dataGridViewEffects.SelectedRows[0].Index;
 
-            var effect = LoadedAsset.GetAllEventEffects()[eventTemp].ElementAt(index2);
+            var effect = _wmAsset.GetAllEventEffects()[eventTemp].ElementAt(index2);
 
-            LoadedAsset.RemoveEffect(eventTemp, effect);
-            SetModified();
+            _wmAsset.RemoveEffect(eventTemp, effect);
+            
             dataGridViewEventTemplates_SelectionChanged(sender, e);
         }
 
@@ -276,14 +273,14 @@ namespace WorldModelWF
         {
             var index = dataGridViewEventTemplates.SelectedRows[0].Index;
 
-            var eventTemp = LoadedAsset.GetAllActions().ElementAt(index).Item1;
+            var eventTemp = _wmAsset.GetAllActions().ElementAt(index).Item1;
 
             var index2 = dataGridViewEffects.SelectedRows[0].Index;
 
-            var effect = LoadedAsset.GetAllEventEffects()[eventTemp].ElementAt(index2);
+            var effect = _wmAsset.GetAllEventEffects()[eventTemp].ElementAt(index2);
 
-            LoadedAsset.AddActionEffect(eventTemp, effect.ToDTO());
-            SetModified();
+            _wmAsset.AddActionEffect(eventTemp, effect.ToDTO());
+            
             dataGridViewEventTemplates_SelectionChanged(sender, e);
         }
 
@@ -293,6 +290,36 @@ namespace WorldModelWF
 
         private void MainForm_Load(object sender, EventArgs e)
         {
+        }
+
+        private void button3_Click(object sender, EventArgs e) // Duplicate Action
+        {
+            var index = dataGridViewEventTemplates.SelectedRows[0].Index;
+
+            var eventTemp = _wmAsset.GetAllActions().ElementAt(index).Item1;
+
+            //Cant add events with the same name so I have to rework their variables
+
+            string newActionName = "Duplicate" + eventTemp.GetNTerm(3).ToString();
+
+            
+            var newEventTemp = WellFormedNames.Name.BuildName(
+                (Name) AMConsts.EVENT,
+                (Name) "Action-End",
+                eventTemp.GetNTerm(2),
+                (Name)newActionName,
+                eventTemp.GetNTerm(4));
+
+            var priority = _wmAsset.GetAllActions().ElementAt(index).Item2;
+
+            _wmAsset.addActionTemplate((Name)newEventTemp, priority);
+
+            _wmAsset.AddActionEffects((Name)newEventTemp, _wmAsset.GetAllEventEffects()[eventTemp].ToList());
+
+            
+
+            RefreshEventList();
+
         }
     }
 }

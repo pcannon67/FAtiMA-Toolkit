@@ -9,14 +9,13 @@ using SerializationUtilities;
 using WellFormedNames;
 using IQueryable = WellFormedNames.IQueryable;
 using ActionLibrary.DTOs;
-
 namespace EmotionalDecisionMaking
 {
 	/// <summary>
 	/// Main class of the Emotional Decision Making Asset
 	/// </summary>
 	[Serializable]
-    public sealed class EmotionalDecisionMakingAsset : LoadableAsset<EmotionalDecisionMakingAsset>, ICustomSerialization
+    public sealed class EmotionalDecisionMakingAsset : Asset<EmotionalDecisionMakingAsset>, ICustomSerialization
     {
         public static readonly Name DEFAULT_PRIORITY = Name.BuildName(1);
 
@@ -32,13 +31,7 @@ namespace EmotionalDecisionMaking
         {
             m_actionRules = new List<ActionRule>();
         }
-
-		protected override string OnAssetLoaded()
-		{
-			return null;
-		}
-
-
+        
 		/// <summary>
 		/// Registers an Emotional Appraisal Asset to be used by
 		/// this Emotional Decision Making asset.
@@ -195,7 +188,6 @@ namespace EmotionalDecisionMaking
             this.AddRuleCondition(ruleId, newCondition);
         }
         
-
 #region Serialization
 
 		public void GetObjectData(ISerializationData dataHolder, ISerializationContext context)

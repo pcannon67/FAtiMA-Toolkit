@@ -24,9 +24,9 @@ namespace AutobiographicMemory
 
 		public void BindToRegistry(IDynamicPropertiesRegistry registry)
 		{
-			registry.RegistDynamicProperty(EVENT_ID_PROPERTY_NAME, EventIdPropertyCalculator);
-			registry.RegistDynamicProperty(EVENT_ELAPSED_TIME_PROPERTY_NAME, EventAgePropertyCalculator);
-			registry.RegistDynamicProperty(LAST_EVENT_ID_PROPERTY_NAME, LastEventIdPropertyCalculator);
+            registry.RegistDynamicProperty(EVENT_ID_PROPERTY_NAME, "", EventIdPropertyCalculator);
+			registry.RegistDynamicProperty(EVENT_ELAPSED_TIME_PROPERTY_NAME, "", EventAgePropertyCalculator);
+			registry.RegistDynamicProperty(LAST_EVENT_ID_PROPERTY_NAME, "", LastEventIdPropertyCalculator);
 		}
 
 		public IBaseEvent RecordEvent(EventDTO dto)
@@ -197,7 +197,7 @@ namespace AutobiographicMemory
 						yield return new DynamicPropertyResult(new ComplexValue(Name.BuildName(id)), new SubstitutionSet(pair.Item2));
 				}
 
-			    if (unifiedSet.IsEmpty())
+			    if (!unifiedSet.Any())
 			    {
 			        yield return new DynamicPropertyResult(new ComplexValue(Name.BuildName(-1)), c);
 			    }
@@ -287,7 +287,7 @@ namespace AutobiographicMemory
                          }
 
 
-                        if (unifiedSet.IsEmpty())
+                        if (!unifiedSet.Any())
                         {
                             yield return new DynamicPropertyResult(new ComplexValue(Name.BuildName(-1)), c);
                         }

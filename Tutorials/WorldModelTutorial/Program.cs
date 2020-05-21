@@ -1,23 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
+using System.IO;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Security.Cryptography;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using ActionLibrary;
-using ActionLibrary.DTOs;
-using AssetManagerPackage;
-using CommeillFaut.DTOs;
-using CommeillFaut;
-using Conditions.DTOs;
-using EmotionalAppraisal;
-using EmotionalAppraisal.DTOs;
 using IntegratedAuthoringTool;
-using KnowledgeBase;
-using Microsoft.CSharp.RuntimeBinder;
 using RolePlayCharacter;
 using WellFormedNames;
 using WorldModel;
@@ -32,7 +18,7 @@ namespace WorldModelTutorial
         static void Main(string[] args)
         {
 
-            var iat = IntegratedAuthoringToolAsset.LoadFromFile("../../../Examples/CiF/CiF-Scenario-IAT.iat");
+            var iat = IntegratedAuthoringToolAsset.FromJson(File.ReadAllText("../../../Examples/CiF-Tutorial/JobInterview.iat"), new GAIPS.Rage.AssetStorage());
             rpcList = new List<RolePlayCharacterAsset>();
             var wm = new WorldModelAsset();
 
@@ -58,23 +44,6 @@ namespace WorldModelTutorial
                 ObserverAgent = (Name)"[i]"
             });
 
-            wm.SaveToFile("../../../Examples/CiF/WorldModel.wm");
-            foreach (var source in iat.GetAllCharacterSources())
-            {
-
-                var rpc = RolePlayCharacterAsset.LoadFromFile(source.Source);
-
-
-                //rpc.DynamicPropertiesRegistry.RegistDynamicProperty(Name.BuildName("Volition"),cif.VolitionPropertyCalculator);
-                rpc.LoadAssociatedAssets();
-
-                iat.BindToRegistry(rpc.DynamicPropertiesRegistry);
-
-                rpcList.Add(rpc);
-
-            }
-          
-
             foreach (var actor in rpcList)
             {
 
@@ -90,7 +59,6 @@ namespace WorldModelTutorial
                     }
                     
                 }
-                //         actor.SaveToFile("../../../Examples/" + actor.CharacterName + "-output1" + ".rpc");
             }
 
 
@@ -117,9 +85,6 @@ namespace WorldModelTutorial
                         Console.WriteLine(rpc.CharacterName + " has this action: " + act.Name);
                         
                     }
-                    rpc.SaveToFile("../../../Examples/CiF/" + rpc.CharacterName + "-output" + ".rpc");
-
-
                 }
 
                 _events.Clear();
@@ -127,7 +92,7 @@ namespace WorldModelTutorial
                     var randomGen = new Random(Guid.NewGuid().GetHashCode());
 
                     var pos = randomGen.Next(rpcList.Count);
-                int i = 0;
+                
                   
                     var initiator = rpcList[pos];
                 

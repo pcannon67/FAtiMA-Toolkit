@@ -98,7 +98,8 @@ namespace GAIPS.AssetEditorTools
 			if (!hasData)
 				return;
 
-			_view.RemoveConditionAt(CurrentSelectedRowIndex);
+            if(CurrentSelectedRowIndex != -1)
+			    _view.RemoveConditionAt(CurrentSelectedRowIndex);
 		}
 
 		private int _currentEditIndex = -1;
@@ -147,7 +148,7 @@ namespace GAIPS.AssetEditorTools
 			}
 		}
 
-		private void quantifierComboBox_SelectedIndexChanged(object sender, EventArgs e)
+		public void quantifierComboBox_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			var hasData = _view != null && _view.HasData;
 			if (!hasData)

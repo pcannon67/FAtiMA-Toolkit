@@ -4,8 +4,14 @@ obj
 *.coverage
 packages/
 /ExportDlls
+/Dlls
+/Binaries
 *.user
 TestResults
 /Components/KnowledgeBase/java-files/*.java
 
 \.axoCover/
+
+AuthoringTools/\.vs/
+
+\.vs/

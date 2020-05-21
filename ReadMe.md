@@ -3,8 +3,9 @@
 [![Build status](https://ci.appveyor.com/api/projects/status/84vfpgaawun3nxqx?svg=true)](https://ci.appveyor.com/project/samuelfm/fatima-toolkit)
 [![AppVeyor tests](https://img.shields.io/appveyor/tests/samuelfm/fatima-toolkit.svg)](https://ci.appveyor.com/project/samuelfm/fatima-toolkit/build/tests)
 
-### Code Coverage (71%)
-Details: http://gaips-inesc-id.github.io/FAtiMA-Toolkit/coverage/
+### Code Coverage (76%)
+
+### Oficial Website: https://fatima-toolkit.eu/
 
 ### Description
 
@@ -35,10 +36,16 @@ With these goals in mind, the toolkit is composed of several assets. Each has a 
 
 - Real Time Emotion Recognition - Able to infer the player's emotional state by combining multiple sources of affective inputs.
 
+### Latest Release: https://github.com/GAIPS-INESC-ID/FAtiMA-Toolkit/releases/tag/v4.0
+
 ### Tutorials
 To get started, we recommed that you check the code examples of each asset in the project folder named *Tutorials*
 
+Additionally users car check the oficial website's "Get Started" section to learn more: https://fatima-toolkit.eu/home/get-started/
+
 ### Training Materials
+
+- FAtiMA Website: https://fatima-toolkit.eu/home/get-started/
 - GALA 2017 Tutorial Presentation: https://www.dropbox.com/s/k7ymaqwr6wftytr/FAtiMA-GALA-Tutorial.pdf?dl=0
 - IAJ Lecture 1: https://www.dropbox.com/s/w6fhgtjh3jlnhwn/IAJ-FAtiMA-Part1.pdf?dl=0
 - IAJ Lecture 2: https://www.dropbox.com/s/y6ldivwlqunpl3g/IAJ-FAtiMA-Part2.pdf?dl=0
@@ -72,9 +79,11 @@ https://www.youtube.com/watch?v=2WgKs3-iI7g
 ### Integrated Authoring Tool
 
 The Integrated Authoring tool is a Windows application that is used to create and edit game scenarios with the toolkit. 
-The latest version (2.5) now includes a world model that allows the author to define the effects of actions. These effects will then be used by the chat simulator so the author can fully test a conversational scenario between a player and one or more characters. Additionally, there is now a graph tool in the dialogue editor that automatically creates a graph structure of the existing dialogues.
+The latest version now includes a world model that allows the author to define the effects of actions. These effects will then be used by the chat simulator so the author can fully test a conversational scenario between a player and one or more characters. Additionally, there is now a graph tool in the dialogue editor that automatically creates a graph structure of the existing dialogues.
 
-- Version 2.5: https://www.dropbox.com/s/2sxb2edenf32t45/AuthoringTools-Jul-2018.zip?dl=0
+- Version 2.7: https://www.dropbox.com/s/e0w7ygpd1i9rp06/AuthoringTools-v2.7.zip?dl=0
+
+- Version 2.5: https://drive.google.com/open?id=1sfjzTDyUPM99CW6WWkXsWRNEXEllJziI
 
 - Version 2.1: https://www.dropbox.com/s/2h5jsok824jpzow/AuthoringTools-2018-Feb-2.1.zip?dl=0
 
@@ -95,6 +104,7 @@ Apache 2.0
 
 ### Contact
 For any questions, suggestions and feedback please contact Samuel Mascarenhas (samuel.mascarenhas@gaips.inesc-id.pt). 
+
 
 [rage-link]: <http://rageproject.eu//>
 [fatima-link]: <http://link.springer.com/chapter/10.1007%2F978-3-319-12973-0_3>

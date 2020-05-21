@@ -9,9 +9,11 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>IntegratedAuthoringToolWF</RootNamespace>
     <AssemblyName>IntegratedAuthoringToolWF</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <TargetFrameworkProfile />
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -24,7 +26,6 @@
     <MapFileExtensions>true</MapFileExtensions>
     <ApplicationRevision>0</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
@@ -33,7 +34,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>..\..\Binaries\FAtiMA-AuthoringTools\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -73,8 +74,11 @@
     </Compile>
     <Compile Include="Audio\AudioStreamModifier.cs" />
     <Compile Include="Audio\SampleJoiner.cs" />
-    <Compile Include="BaseIATForm.cs">
+    <Compile Include="AddCharacterForm.cs">
       <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AddCharacterForm.Designer.cs">
+      <DependentUpon>AddCharacterForm.cs</DependentUpon>
     </Compile>
     <Compile Include="ImageForm.cs">
       <SubType>Form</SubType>
@@ -115,8 +119,37 @@
     <Compile Include="TTSEngines\L2F\LanguageResources.cs" />
     <Compile Include="TTSEngines\System\SystemTextToSpeechEngine.cs" />
     <Compile Include="TTSEngines\Viseme.cs" />
+    <Compile Include="WepAPI\MainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WepAPI\MainForm.Designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WepAPI\Program.cs" />
+    <Compile Include="WordModel\AddOrEditActionTemplateForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WordModel\AddOrEditActionTemplateForm.Designer.cs">
+      <DependentUpon>AddOrEditActionTemplateForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WordModel\AddorEditEffect.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WordModel\AddorEditEffect.Designer.cs">
+      <DependentUpon>AddorEditEffect.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WordModel\MainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WordModel\MainForm.Designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="AboutForm.resx">
       <DependentUpon>AboutForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AddCharacterForm.resx">
+      <DependentUpon>AddCharacterForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="AddOrEditDialogueActionForm.resx">
       <DependentUpon>AddOrEditDialogueActionForm.cs</DependentUpon>
@@ -138,6 +171,18 @@
     <EmbeddedResource Include="TextToSpeechForm.resx">
       <DependentUpon>TextToSpeechForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="WepAPI\MainForm.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WordModel\AddOrEditActionTemplateForm.resx">
+      <DependentUpon>AddOrEditActionTemplateForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WordModel\AddorEditEffect.resx">
+      <DependentUpon>AddorEditEffect.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WordModel\MainForm.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="External\config6">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -156,9 +201,17 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Assets\CommeillFaut\CommeillFaut.csproj">
+      <Project>{ba21951c-1799-4d0f-aa99-62df857f3b71}</Project>
+      <Name>CommeillFaut</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Assets\EmotionalAppraisal\EmotionalAppraisal.csproj">
       <Project>{0a2a1ee9-bd5d-44aa-a22d-291612488f06}</Project>
       <Name>EmotionalAppraisal</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Assets\EmotionalDecisionMaking\EmotionalDecisionMaking.csproj">
+      <Project>{a1e56f5c-eaac-43e5-a922-5b244168ea5c}</Project>
+      <Name>EmotionalDecisionMaking</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Assets\IntegratedAuthoringTool\IntegratedAuthoringTool.csproj">
       <Project>{f6ad95a5-889c-41a4-b613-b81f09a424ee}</Project>
@@ -168,9 +221,13 @@
       <Project>{986ea00a-7aa4-4d9e-b986-e6f290e7aa3f}</Project>
       <Name>RolePlayCharacter</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Assets\World Model\World Model.csproj">
-      <Project>{efbdb6b1-5ba2-42dc-89ea-3ef49391e04c}</Project>
-      <Name>World Model</Name>
+    <ProjectReference Include="..\..\Assets\SocialImportance\SocialImportance.csproj">
+      <Project>{823e8a41-5231-4b06-bbab-e62651e15bc7}</Project>
+      <Name>SocialImportance</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Assets\WorldModel\WorldModel.csproj">
+      <Project>{c751a38c-44d9-4918-b1f1-55a80147471d}</Project>
+      <Name>WorldModel</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Components\ActionLibrary\ActionLibrary.csproj">
       <Project>{e011d502-5c0f-4a3f-9f1a-337ff025eb48}</Project>
@@ -192,6 +249,26 @@
       <Project>{bc47528f-fbf6-465e-bb0e-f68f50f31c13}</Project>
       <Name>WellFormedNames</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Utilities\Utilities\Utilities.csproj">
+      <Project>{eb915898-6d95-4631-8364-f281aa9a24e4}</Project>
+      <Name>Utilities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Wrappers\WebServer\WebServer.csproj">
+      <Project>{8d2e220b-2764-4798-ac75-e75f4847ccc6}</Project>
+      <Name>WebServer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CommeillFautWF\CommeillFautWF.csproj">
+      <Project>{fd251a80-d5d3-4776-b323-37496fd9c550}</Project>
+      <Name>CommeillFautWF</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EmotionalAppraisalWF\EmotionalAppraisalWF.csproj">
+      <Project>{36ef269c-7ab2-4029-bbf4-18f908af46f6}</Project>
+      <Name>EmotionalAppraisalWF</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EmotionalDecisionMakingWF\EmotionalDecisionMakingWF.csproj">
+      <Project>{a1727658-04b9-479a-98db-f04c897488cc}</Project>
+      <Name>EmotionalDecisionMakingWF</Name>
+    </ProjectReference>
     <ProjectReference Include="..\GAIPS.AssetEditorTools\GAIPS.AssetEditorTools.csproj">
       <Project>{c61fb19d-e715-4eb4-afca-27ff81a14777}</Project>
       <Name>GAIPS.AssetEditorTools</Name>
@@ -200,9 +277,9 @@
       <Project>{63ec96bc-d3e1-491b-8c55-61a0f5fba210}</Project>
       <Name>RolePlayCharacterWF</Name>
     </ProjectReference>
-    <ProjectReference Include="..\WorldModelWF\WorldModelWF.csproj">
-      <Project>{dd109968-3275-499c-b0a2-3eedd32d7be9}</Project>
-      <Name>WorldModelWF</Name>
+    <ProjectReference Include="..\SocialImportanceWF\SocialImportanceWF.csproj">
+      <Project>{8c1bbedb-3334-4877-84b2-99e4e7c5abd8}</Project>
+      <Name>SocialImportanceWF</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -215,7 +292,6 @@
     </Reference>
     <Reference Include="Equin.ApplicationFramework.BindingListView, Version=1.4.5222.35545, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Equin.ApplicationFramework.BindingListView.1.4.5222.35545\lib\net40-Client\Equin.ApplicationFramework.BindingListView.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="GAIPS.Serialization, Version=1.5.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\GAIPS.Serialization.1.5.0\lib\net35\GAIPS.Serialization.dll</HintPath>
@@ -229,13 +305,12 @@
       <HintPath>..\packages\NAudio.Vorbis.1.0.0.0\lib\net35\NAudio.Vorbis.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="NVorbis, Version=0.8.4.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\NVorbis.0.8.4.0\lib\NVorbis.dll</HintPath>
       <Private>True</Private>
-    </Reference>
-    <Reference Include="RageAssetManager, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\DllDependencies\RageAssetManager.dll</HintPath>
     </Reference>
     <Reference Include="SoundTouch.Net, Version=1.9.2.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\SoundTouch.Net.1.9.2.2\lib\net40\SoundTouch.Net.dll</HintPath>
@@ -248,10 +323,6 @@
     <Reference Include="System.Speech" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.XML" />
-    <Reference Include="Utilities, Version=1.0.0.19854, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Utilities.1.0.0.19854\lib\net35\Utilities.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\composition.xcf" />

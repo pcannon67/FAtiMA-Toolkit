@@ -1,16 +1,10 @@
-﻿using System;
-using RolePlayCharacter;
+﻿using RolePlayCharacter;
 using WellFormedNames;
 using KnowledgeBase;
-using Conditions.DTOs;
-using GAIPS.Rage;
-using System.Collections;
-using AutobiographicMemory.DTOs;
 using AutobiographicMemory;
 using Conditions;
 using NUnit.Framework;
 using System.Collections.Generic;
-using Utilities;
 
 namespace Tests.AutobiographicMemory
 {
@@ -80,7 +74,7 @@ namespace Tests.AutobiographicMemory
                 m_kb = kb,
             };
 
-            rpc.LoadAssociatedAssets();
+            rpc.LoadAssociatedAssets(new GAIPS.Rage.AssetStorage());
             return rpc;
 
         }

@@ -9,7 +9,6 @@ using SerializationUtilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Utilities;
 using WellFormedNames;
 
 namespace EmotionalAppraisal
@@ -18,15 +17,11 @@ namespace EmotionalAppraisal
     /// Main class of the Emotional Appraisal Asset.
     /// </summary>
     [Serializable]
-    public sealed partial class EmotionalAppraisalAsset : LoadableAsset<EmotionalAppraisalAsset>, ICustomSerialization
+    public sealed partial class EmotionalAppraisalAsset : Asset<EmotionalAppraisalAsset>, ICustomSerialization
     {
-        [NonSerialized]
-        private long _lastFrameAppraisal = 0;
-
         private ReactiveAppraisalDerivator m_appraisalDerivator;
         private EmotionDisposition m_defaultEmotionalDisposition;
         private Dictionary<string, EmotionDisposition> m_emotionDispositions;
-        private Dictionary<string, Goal> m_goals;
 
         [NonSerialized]
         private OCCAffectDerivationComponent m_occAffectDerivator;
@@ -39,8 +34,7 @@ namespace EmotionalAppraisal
         public EmotionalAppraisalAsset()
         {
             m_emotionDispositions = new Dictionary<string, EmotionDisposition>();
-            m_goals = new Dictionary<string, Goal>();
-            m_defaultEmotionalDisposition = new EmotionDisposition("*", 1, 1);
+            m_defaultEmotionalDisposition = new EmotionDisposition("*", 1, 0);
             m_occAffectDerivator = new OCCAffectDerivationComponent();
             m_appraisalDerivator = new ReactiveAppraisalDerivator();
         }
@@ -88,11 +82,6 @@ namespace EmotionalAppraisal
             m_appraisalDerivator.AddOrUpdateAppraisalRule(emotionalAppraisalRule);
         }
 
-        public void AddOrUpdateGoal(GoalDTO goal)
-        {
-            m_goals[goal.Name] = new Goal(goal);
-        }
-
         /// <summary>
         /// Appraises a set of event strings.
         ///
@@ -102,11 +91,8 @@ namespace EmotionalAppraisal
         /// emotions.
         /// </summary>
         /// <param name="eventNames">A set of string representation of the events to appraise</param>
-        public void AppraiseEvents(IEnumerable<Name> eventNames, Name perspective, IEmotionalState emotionalState, AM am, KB kb)
+        public void AppraiseEvents(IEnumerable<Name> eventNames, Name perspective, IEmotionalState emotionalState, AM am, KB kb, Dictionary<string, Goal> goals)
         {
-            var appraisalFrame = new InternalAppraisalFrame();
-            appraisalFrame.Perspective = kb.Perspective;
-
             foreach (var n in eventNames)
             {
                 var evt = am.RecordEvent(n, am.Tick);
@@ -130,26 +116,26 @@ namespace EmotionalAppraisal
                     }
                     else // new value is not grounded
                     {
-                        var values =
-                            kb.AskPossibleProperties(propEvt.NewValue, perspective, new List<SubstitutionSet>());
+                        var values = kb.AskPossibleProperties(propEvt.NewValue, perspective, new List<SubstitutionSet>());
                         if (values.Count() == 1)
                         {
                             kb.Tell(fact, values.FirstOrDefault().Item1.Value, perspective);
                         }
-                        else throw new Exception("Multiple possible values for " + propEvt.NewValue);
+                        else if (values.Count() == 0) throw new Exception("No value was found for the property:" + propEvt.Property); 
+                        else throw new Exception("Multiple possible values for:" + propEvt.NewValue); ;
                     }
                 }
-
-                appraisalFrame.Reset(evt);
-                var componentFrame = appraisalFrame.RequestComponentFrame(m_appraisalDerivator, m_appraisalDerivator.AppraisalWeight);
-                m_appraisalDerivator.Appraisal(kb, evt, componentFrame);
-                UpdateEmotions(appraisalFrame, emotionalState, am);
+                var appraisalFrame = new InternalAppraisalFrame();
+                appraisalFrame.Perspective = kb.Perspective;
+                appraisalFrame.AppraisedEvent = evt;
+                m_appraisalDerivator.Appraisal(kb, evt, appraisalFrame);
+                UpdateEmotions(appraisalFrame, goals, emotionalState, am);
             }
         }
 
-        public void AppraiseEvents(IEnumerable<Name> eventNames, IEmotionalState emotionalState, AM am, KB kb)
+        public void AppraiseEvents(IEnumerable<Name> eventNames, IEmotionalState emotionalState, AM am, KB kb, Dictionary<string, Goal> goals)
         {
-            AppraiseEvents(eventNames, Name.SELF_SYMBOL, emotionalState, am, kb);
+            AppraiseEvents(eventNames, Name.SELF_SYMBOL, emotionalState, am, kb, goals);
         }
 
         /// <summary>
@@ -177,19 +163,11 @@ namespace EmotionalAppraisal
             {
                 Id = r.Id,
                 EventMatchingTemplate = r.EventName,
-                Desirability = r.Desirability,
-                Praiseworthiness = r.Praiseworthiness,
+                AppraisalVariables = r.AppraisalVariables,
                 Conditions = r.Conditions.ToDTO()
             });
         }
-
-        public IEnumerable<GoalDTO> GetAllGoals()
-        {
-            return this.m_goals.Values.Select(g => new GoalDTO {
-                Name = g.Name.ToString(),
-                Likelihood = g.Likelihood,
-                Significance = g.Significance });
-        }
+           
 
         /// <summary>
         /// Returns the emotional dispotion associated to a given emotion type.
@@ -209,8 +187,6 @@ namespace EmotionalAppraisal
         {
             dataHolder.SetValue("Description", Description);
             dataHolder.SetValue("AppraisalRules", m_appraisalDerivator);
-            dataHolder.SetValue("EmotionDispositions", m_emotionDispositions.Values.Prepend(m_defaultEmotionalDisposition).ToArray());
-            dataHolder.SetValue("Goals", m_goals.Values.ToArray());
         }
 
         /// <summary>
@@ -221,7 +197,7 @@ namespace EmotionalAppraisal
         {
             foreach (var appraisalRuleDto in appraisalRules)
             {
-                m_appraisalDerivator.RemoveAppraisalRule(new AppraisalRule(appraisalRuleDto));
+                m_appraisalDerivator.RemoveAppraisalRule(appraisalRuleDto.Id);
             }
         }
 
@@ -234,64 +210,19 @@ namespace EmotionalAppraisal
             this.m_emotionDispositions.Remove(emotionType);
         }
 
-        public void RemoveGoals(IEnumerable<GoalDTO> goals)
-        {
-            foreach (var goal in goals)
-            {
-                this.m_goals.Remove(goal.Name);
-            }
-        }
         /// @cond DEV
         public void SetObjectData(ISerializationData dataHolder, ISerializationContext context)
         {
             Description = dataHolder.GetValue<string>("Description");
-
             m_appraisalDerivator = dataHolder.GetValue<ReactiveAppraisalDerivator>("AppraisalRules");
             m_occAffectDerivator = new OCCAffectDerivationComponent();
-
-            if (m_emotionDispositions == null)
-                m_emotionDispositions = new Dictionary<string, EmotionDisposition>();
-            else
-                m_emotionDispositions.Clear();
-
-            var dispositions = dataHolder.GetValue<EmotionDisposition[]>("EmotionDispositions");
-            EmotionDisposition defaultDisposition = null;
-            foreach (var disposition in dispositions)
-            {
-                if (string.Equals(disposition.Emotion, "*", StringComparison.InvariantCultureIgnoreCase))
-                {
-                    if (defaultDisposition == null)
-                        defaultDisposition = disposition;
-                }
-                else
-                    m_emotionDispositions.Add(disposition.Emotion, disposition);
-            }
-            if (defaultDisposition == null)
-                defaultDisposition = new EmotionDisposition("*", 1, 1);
-            m_defaultEmotionalDisposition = defaultDisposition;
-
-
-            m_goals = new Dictionary<string, Goal>();
-            var goals = dataHolder.GetValue<Goal[]>("Goals");
-            foreach (var g in goals)
-            {
-                m_goals.Add(g.Name.ToString(), g);
-            }
+            m_emotionDispositions = new Dictionary<string, EmotionDisposition>();
+            m_defaultEmotionalDisposition = new EmotionDisposition("*", 1, 0);
         }
 
-        protected override string OnAssetLoaded()
+        private void UpdateEmotions(IAppraisalFrame frame, Dictionary<string, Goal> goals, IEmotionalState emotionalState, AM am)
         {
-            return null;
-        }
-
-        private void UpdateEmotions(IAppraisalFrame frame, IEmotionalState emotionalState, AM am)
-        {
-            if (_lastFrameAppraisal > frame.LastChange)
-            {
-                return;
-            }
-
-            var emotions = m_occAffectDerivator.AffectDerivation(this, frame);
+            var emotions = m_occAffectDerivator.AffectDerivation(this, goals, frame);
             foreach (var emotion in emotions)
             {
                 var activeEmotion = emotionalState.AddEmotion(emotion, am, GetEmotionDisposition(emotion.EmotionType), am.Tick);
@@ -299,7 +230,6 @@ namespace EmotionalAppraisal
                     continue;
             }
 
-            _lastFrameAppraisal = frame.LastChange;
         }
 
         /// @endcond

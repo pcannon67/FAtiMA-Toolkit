@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using Utilities;
 
@@ -95,6 +96,8 @@ namespace WellFormedNames
 		public bool AddSubstitution(Substitution substitution)
 		{
 			bool canAdd;
+            if (substitution == null) return false;
+
 			if (m_impl.TestConflict(substitution, this, out canAdd))
 				return false;
 
@@ -266,7 +269,7 @@ namespace WellFormedNames
 
         public float FindMinimumCertainty()
         {
-            if (this.IsEmpty())
+            if (!this.Any())
                 return 1;
             var result = float.MaxValue;
 

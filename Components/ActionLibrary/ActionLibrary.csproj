@@ -1,75 +1,14 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{E011D502-5C0F-4A3F-9F1A-337FF025EB48}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ActionLibrary</RootNamespace>
-    <AssemblyName>ActionLibrary</AssemblyName>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
+    <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
+
   <ItemGroup>
-    <Compile Include="Action.cs" />
-    <Compile Include="ActionDefinition.cs" />
-    <Compile Include="DTOs\ActionDefinitionDTO.cs" />
-    <Compile Include="IAction.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
+    <ProjectReference Include="..\..\Utilities\SerializationUtilities\SerializationUtilities.csproj" />
+    <ProjectReference Include="..\..\Utilities\Utilities\Utilities.csproj" />
+    <ProjectReference Include="..\Conditions\Conditions.csproj" />
+    <ProjectReference Include="..\WellFormedNames\WellFormedNames.csproj" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Conditions\Conditions.csproj">
-      <Project>{59041269-e52e-4cdd-84e0-92fdcfbf270d}</Project>
-      <Name>Conditions</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\KnowledgeBase\KnowledgeBase.csproj">
-      <Project>{a632a90a-0ee6-430f-acf2-25bb7ced21e7}</Project>
-      <Name>KnowledgeBase</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\WellFormedNames\WellFormedNames.csproj">
-      <Project>{bc47528f-fbf6-465e-bb0e-f68f50f31c13}</Project>
-      <Name>WellFormedNames</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Reference Include="GAIPS.Serialization, Version=1.5.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\GAIPS.Serialization.1.5.0\lib\net35\GAIPS.Serialization.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Utilities, Version=1.0.0.19854, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Utilities.1.0.0.19854\lib\net35\Utilities.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
+
 </Project>

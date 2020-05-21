@@ -2,6 +2,8 @@
 using RolePlayCharacter;
 using System.Linq;
 using WellFormedNames;
+using System.IO;
+using GAIPS.Rage;
 
 namespace RolePlayCharacterTutorial
 {
@@ -9,23 +11,23 @@ namespace RolePlayCharacterTutorial
     {
         static void Main(string[] args)
         {
+            //AssetStorage
+            var storage = AssetStorage.FromJson(File.ReadAllText("../../../../Examples/AssetStorage.json"));
 		    //Loading the asset
-	        var rpc = RolePlayCharacterAsset.LoadFromFile("../../../Examples/RPCTest.rpc");
-            rpc.LoadAssociatedAssets();
+	        var rpc = new RolePlayCharacterAsset();
+            rpc.LoadAssociatedAssets(storage);
             rpc.ActivateIdentity(new Identity((Name)"Portuguese",(Name)"Culture", 1));
             Console.WriteLine("Starting Mood: " + rpc.Mood);
             var actions = rpc.Decide();
             var action = actions.FirstOrDefault();
-            rpc.SaveToFile("../../../Examples/RPCTest-Output.rpc");
+
             rpc.Update();
 
             Console.WriteLine("The name of the character loaded is: " + rpc.CharacterName);
-          //  Console.WriteLine("The following event was perceived: " + event1);
+            // Console.WriteLine("The following event was perceived: " + event1);
             Console.WriteLine("Mood after event: " + rpc.Mood);
             Console.WriteLine("Strongest emotion: " + rpc.GetStrongestActiveEmotion()?.EmotionType + "-" + rpc.GetStrongestActiveEmotion()?.Intensity);
             Console.WriteLine("First Response: " + action?.Name + ", Target:" + action?.Target.ToString());
-
-            rpc.SaveToFile("../../../Examples/RPCTest-Output.rpc");
             
             var busyAction = rpc.Decide().FirstOrDefault();
 
@@ -45,10 +47,8 @@ namespace RolePlayCharacterTutorial
                
                 Console.WriteLine("Mood after tick: " + rpc.Mood + " x: "  + x + " tick: " + rpc.Tick);
                 Console.WriteLine("Strongest emotion: " + rpc.GetStrongestActiveEmotion()?.EmotionType + "-" + rpc.GetStrongestActiveEmotion()?.Intensity);
-                rpc.SaveToFile("../../../Examples/RPCTest-Output.rpc");
                 rpc.Update();
-               Console.ReadLine();
-
+                Console.ReadLine();
 
                 if (x == 10)
                 {
@@ -56,7 +56,6 @@ namespace RolePlayCharacterTutorial
 
                     rpc.Perceive(new[] { event1 });
                     action = rpc.Decide().FirstOrDefault();
-                    rpc.SaveToFile("../../../Examples/RPCTest-OutputEvent.rpc");
                     rpc.Update();
                 }
 
@@ -71,7 +70,6 @@ namespace RolePlayCharacterTutorial
 
                     rpc.Perceive(new[] { event1 });
                      action = rpc.Decide().FirstOrDefault();
-                    rpc.SaveToFile("../../../Examples/RPCTest-OutputEvent.rpc");
                     rpc.Update();
                  }
 
@@ -79,9 +77,7 @@ namespace RolePlayCharacterTutorial
                 else if (x == 30)
                 {
                    Console.WriteLine("Reloading " + rpc.GetStrongestActiveEmotion().Intensity + " " + rpc.GetStrongestActiveEmotion().EmotionType + " mood: " + rpc.Mood);
-                    rpc.SaveToFile("RPCTestReload.rpc");
-
-                    rpc = RolePlayCharacterAsset.LoadFromFile("RPCTestReload.rpc");
+                    
                     Console.WriteLine("Reloading result: " + rpc.GetStrongestActiveEmotion().Intensity + " " + rpc.GetStrongestActiveEmotion().EmotionType + " mood: " + rpc.Mood);
 
                 }
@@ -91,8 +87,6 @@ namespace RolePlayCharacterTutorial
             
 
             }
-            Console.WriteLine("Mood after tick: " + rpc.Mood);
-            Console.ReadKey();
 
         }
     }

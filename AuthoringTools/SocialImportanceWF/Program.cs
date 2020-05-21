@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Windows.Forms;
-using AssetManagerPackage;
 using GAIPS.AssetEditorTools;
 
 namespace SocialImportanceWF
@@ -13,12 +12,10 @@ namespace SocialImportanceWF
 		[STAThread]
 		static void Main()
 		{
-			AssetManager.Instance.Bridge = new ApplicationBridge();
 
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
 			var m = new MainForm();
-			m.CreateNewAsset();
 			Application.Run(m);
 		}
 	}

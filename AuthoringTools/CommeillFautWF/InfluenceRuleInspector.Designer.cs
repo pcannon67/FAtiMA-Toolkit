@@ -46,9 +46,10 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(18, 28);
+            this.label1.Location = new System.Drawing.Point(18, 29);
+            this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(166, 18);
+            this.label1.Size = new System.Drawing.Size(139, 15);
             this.label1.TabIndex = 1;
             this.label1.Text = "Social Exchange Name:";
             // 
@@ -60,18 +61,18 @@
             this.label3.AutoSize = true;
             this.label3.BackColor = System.Drawing.SystemColors.Control;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(223, 28);
+            this.label3.Location = new System.Drawing.Point(223, 29);
+            this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(105, 18);
+            this.label3.Size = new System.Drawing.Size(91, 15);
             this.label3.TabIndex = 3;
             this.label3.Text = "DefaultName";
             // 
             // buttonDuplicateInfluenceRule
             // 
-            this.buttonDuplicateInfluenceRule.Location = new System.Drawing.Point(203, 64);
-            this.buttonDuplicateInfluenceRule.Margin = new System.Windows.Forms.Padding(4);
+            this.buttonDuplicateInfluenceRule.Location = new System.Drawing.Point(202, 64);
             this.buttonDuplicateInfluenceRule.Name = "buttonDuplicateInfluenceRule";
-            this.buttonDuplicateInfluenceRule.Size = new System.Drawing.Size(92, 34);
+            this.buttonDuplicateInfluenceRule.Size = new System.Drawing.Size(91, 34);
             this.buttonDuplicateInfluenceRule.TabIndex = 15;
             this.buttonDuplicateInfluenceRule.Text = "Duplicate";
             this.buttonDuplicateInfluenceRule.UseVisualStyleBackColor = true;
@@ -80,9 +81,8 @@
             // buttonEditInfluenceRule
             // 
             this.buttonEditInfluenceRule.Location = new System.Drawing.Point(102, 64);
-            this.buttonEditInfluenceRule.Margin = new System.Windows.Forms.Padding(4);
             this.buttonEditInfluenceRule.Name = "buttonEditInfluenceRule";
-            this.buttonEditInfluenceRule.Size = new System.Drawing.Size(92, 34);
+            this.buttonEditInfluenceRule.Size = new System.Drawing.Size(91, 34);
             this.buttonEditInfluenceRule.TabIndex = 14;
             this.buttonEditInfluenceRule.Text = "Edit";
             this.buttonEditInfluenceRule.UseVisualStyleBackColor = true;
@@ -91,7 +91,6 @@
             // buttonAddInfluenceRule
             // 
             this.buttonAddInfluenceRule.Location = new System.Drawing.Point(22, 64);
-            this.buttonAddInfluenceRule.Margin = new System.Windows.Forms.Padding(4);
             this.buttonAddInfluenceRule.Name = "buttonAddInfluenceRule";
             this.buttonAddInfluenceRule.Size = new System.Drawing.Size(71, 34);
             this.buttonAddInfluenceRule.TabIndex = 12;
@@ -102,9 +101,8 @@
             // buttonRemoveInfluenceRule
             // 
             this.buttonRemoveInfluenceRule.Location = new System.Drawing.Point(304, 64);
-            this.buttonRemoveInfluenceRule.Margin = new System.Windows.Forms.Padding(4);
             this.buttonRemoveInfluenceRule.Name = "buttonRemoveInfluenceRule";
-            this.buttonRemoveInfluenceRule.Size = new System.Drawing.Size(92, 34);
+            this.buttonRemoveInfluenceRule.Size = new System.Drawing.Size(91, 34);
             this.buttonRemoveInfluenceRule.TabIndex = 13;
             this.buttonRemoveInfluenceRule.Text = "Remove";
             this.buttonRemoveInfluenceRule.UseVisualStyleBackColor = true;
@@ -125,24 +123,22 @@
             this.gridInfluenceRules.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.gridInfluenceRules.ImeMode = System.Windows.Forms.ImeMode.On;
             this.gridInfluenceRules.Location = new System.Drawing.Point(22, 113);
-            this.gridInfluenceRules.Margin = new System.Windows.Forms.Padding(4);
             this.gridInfluenceRules.Name = "gridInfluenceRules";
             this.gridInfluenceRules.ReadOnly = true;
             this.gridInfluenceRules.RowHeadersVisible = false;
             this.gridInfluenceRules.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.gridInfluenceRules.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.gridInfluenceRules.Size = new System.Drawing.Size(479, 122);
+            this.gridInfluenceRules.Size = new System.Drawing.Size(544, 166);
             this.gridInfluenceRules.TabIndex = 11;
             this.gridInfluenceRules.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.gridInfluenceRules_CellMouseDoubleClick);
             // 
             // Close
             // 
-            this.Close.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.Close.Location = new System.Drawing.Point(197, 252);
+            this.Close.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.Close.Location = new System.Drawing.Point(215, 295);
+            this.Close.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Close.Name = "Close";
-            this.Close.Size = new System.Drawing.Size(131, 31);
+            this.Close.Size = new System.Drawing.Size(167, 32);
             this.Close.TabIndex = 16;
             this.Close.Text = "Close";
             this.Close.UseVisualStyleBackColor = true;
@@ -152,7 +148,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(539, 295);
+            this.ClientSize = new System.Drawing.Size(603, 338);
             this.Controls.Add(this.Close);
             this.Controls.Add(this.buttonDuplicateInfluenceRule);
             this.Controls.Add(this.buttonEditInfluenceRule);
@@ -161,6 +157,8 @@
             this.Controls.Add(this.gridInfluenceRules);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label1);
+            this.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F);
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Name = "InfluenceRuleInspector";
             this.Text = "InfluenceRuleInspector";
             this.Load += new System.EventHandler(this.InfluenceRuleInspector_Load);

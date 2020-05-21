@@ -9,9 +9,10 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>EmotionalAppraisalWF</RootNamespace>
     <AssemblyName>EmotionalAppraisalWF</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -38,6 +39,12 @@
     <StartupObject>EmotionalAppraisalWF.Program</StartupObject>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="AddOrEditAppraisalVariableForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AddOrEditAppraisalVariableForm.Designer.cs">
+      <DependentUpon>AddOrEditAppraisalVariableForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="AddOrEditAppraisalRuleForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -50,21 +57,6 @@
     <Compile Include="AddOrEditAppraisalVariablesForm.Designer.cs">
       <DependentUpon>AddOrEditAppraisalVariablesForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="AddOrEditEmotionDispositionForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="AddOrEditEmotionDispositionForm.Designer.cs">
-      <DependentUpon>AddOrEditEmotionDispositionForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="AddOrEditGoalForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="AddOrEditGoalForm.Designer.cs">
-      <DependentUpon>AddOrEditGoalForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="BaseEAForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="Emotion.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
@@ -74,19 +66,15 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ViewModels\EmotionDispositionsVM.cs" />
     <Compile Include="ViewModels\AppraisalRulesVM.cs" />
+    <EmbeddedResource Include="AddOrEditAppraisalVariableForm.resx">
+      <DependentUpon>AddOrEditAppraisalVariableForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="AddOrEditAppraisalRuleForm.resx">
       <DependentUpon>AddOrEditAppraisalRuleForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="AddOrEditAppraisalVariablesForm.resx">
       <DependentUpon>AddOrEditAppraisalVariablesForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="AddOrEditEmotionDispositionForm.resx">
-      <DependentUpon>AddOrEditEmotionDispositionForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="AddOrEditGoalForm.resx">
-      <DependentUpon>AddOrEditGoalForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
@@ -101,6 +89,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <None Include="app.config" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -139,6 +128,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\DllDependencies\RageAssetManager.dll</HintPath>
     </Reference>
+    <Reference Include="SerializationUtilities, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />

@@ -1,8 +1,4 @@
 ﻿using System;
-using System.IO;
-using AssetManagerPackage;
-using EmotionalAppraisal;
-using GAIPS.Rage;
 using SocialImportance;
 using KnowledgeBase;
 using WellFormedNames;
@@ -15,10 +11,9 @@ namespace SocialImportanceTutorial
         static void Main(string[] args)
         {
 			var siTarget = "Player";
-            
-            //First, we load the asset from an existing profile
-            var siAsset = SocialImportanceAsset.LoadFromFile("../../../Examples/SITest.si");
 
+            //First, we load the asset from an existing profile
+            var siAsset = SocialImportanceAsset.CreateInstance(new GAIPS.Rage.AssetStorage());
             var rules = siAsset.GetAttributionRules();
             //We then register a knowledge base
             var kb = new KB((Name)"John");

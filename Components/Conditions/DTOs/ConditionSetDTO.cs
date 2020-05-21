@@ -13,6 +13,7 @@ namespace Conditions.DTOs
 		/// Used to change how the entier condition set is evaluated.
 		/// </summary>
 		public LogicalQuantifier Quantifier { get; set; }
+
 		/// <summary>
 		/// The conditions to be evaluated as a single set.
 		/// </summary>
@@ -21,11 +22,16 @@ namespace Conditions.DTOs
 
         public override string ToString()
         {
+            if (this.ConditionSet == null) return "-";
+
             string ret = "";
             
             foreach(var c in ConditionSet)
-                ret += c.ToString() + "|";
-                
+                ret += c.ToString() + ", ";
+
+
+            ret = ret.TrimEnd();
+            ret = ret.TrimEnd(',');
             return ret;
         }
 	}

@@ -11,7 +11,7 @@ using KnowledgeBase;
 namespace CommeillFaut
 {
     [Serializable]
-    public sealed class CommeillFautAsset  : LoadableAsset<CommeillFautAsset>, ICustomSerialization
+    public sealed class CommeillFautAsset  : Asset<CommeillFautAsset>, ICustomSerialization
     {
         public KB m_kB;
         private List<SocialExchange> m_SocialExchanges { get; set; }
@@ -26,11 +26,6 @@ namespace CommeillFaut
             m_kB = null;
             m_SocialExchanges = new List<SocialExchange>();
         }
-
-        	protected override string OnAssetLoaded()
-		{
-			return null;
-		}
 
         /// <summary>
         /// Binds a KB to this Comme ill Faut Asset instance. Without a KB instance binded to this asset, 
@@ -55,7 +50,7 @@ namespace CommeillFaut
 
         public void BindToRegistry(IDynamicPropertiesRegistry registry)
         {
-            registry.RegistDynamicProperty(VOLITION_PROPERTY_TEMPLATE, VolitionPropertyCalculator);
+            registry.RegistDynamicProperty(VOLITION_PROPERTY_TEMPLATE, "", VolitionPropertyCalculator);
         }
 
         private static readonly Name VOLITION_PROPERTY_TEMPLATE = (Name)"Volition";
@@ -63,10 +58,6 @@ namespace CommeillFaut
         public IEnumerable<DynamicPropertyResult> VolitionPropertyCalculator(IQueryContext context, Name socialMoveName,  Name Step, Name Target, Name Mode)
         {
             Dictionary<SubstitutionSet, Name> ret = new Dictionary<SubstitutionSet, Name>();
-
-            var stringVolition = "";
-            var possibleSE = new List<SocialExchange>();
-            bool SEConstraint = false;
 
 
             if (context.Perspective != Name.SELF_SYMBOL)
@@ -203,12 +194,12 @@ namespace CommeillFaut
         {
           
             var idx = m_SocialExchanges.FindIndex(x => x.Id == dto.Id);
-            System.Guid actualID = new Guid();
+            System.Guid actualId;
             if (idx < 0)
             {
                 var se = new SocialExchange(dto);
                 m_SocialExchanges.Add(se);
-                actualID = se.Id;
+                actualId = se.Id;
             }
             else
             {
@@ -217,13 +208,13 @@ namespace CommeillFaut
                 m_SocialExchanges[idx].Description = dto.Description;
                 m_SocialExchanges[idx].Target = dto.Target;
                 m_SocialExchanges[idx].Name = dto.Name;
-                 m_SocialExchanges[idx].Steps = dto.Steps;
+                 m_SocialExchanges[idx].Steps = m_SocialExchanges[idx].StringToSteps(dto.Steps);
                  m_SocialExchanges[idx].InfluenceRules = dto.InfluenceRules.Select(x=>new InfluenceRule(x)).ToList();
-                actualID = m_SocialExchanges[idx].Id;
+                actualId = m_SocialExchanges[idx].Id;
 
             }
 
-            return actualID;
+            return actualId;
         }
 
         public void RemoveSocialExchange(Guid id)
@@ -278,6 +269,11 @@ namespace CommeillFaut
         {
             
             m_SocialExchanges = new List<SocialExchange>(dataHolder.GetValue<SocialExchange[]>("SocialExchanges"));
+
+            foreach (var se in m_SocialExchanges)
+            {
+                se.Id =  Guid.NewGuid();
+            }
         }
 
 

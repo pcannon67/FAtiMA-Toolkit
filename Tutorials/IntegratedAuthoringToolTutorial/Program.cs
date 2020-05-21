@@ -1,9 +1,8 @@
-﻿using AssetManagerPackage;
-using RolePlayCharacter;
+﻿using RolePlayCharacter;
 using IntegratedAuthoringTool;
 using System;
 using System.Linq;
-using WellFormedNames;
+using System.IO;
 
 namespace IntegratedAuthoringToolTutorial
 {
@@ -14,13 +13,9 @@ namespace IntegratedAuthoringToolTutorial
             var playerStr = IATConsts.PLAYER;
 
             //Loading the asset
-            var iat = IntegratedAuthoringToolAsset.LoadFromFile("../../../Examples/IATTest.iat");
+            var iat = IntegratedAuthoringToolAsset.FromJson(File.ReadAllText("../../../../Examples/IAT-Tutorial/Scenarios/ForTheRecord.iat"), new GAIPS.Rage.AssetStorage());
             var currentState = IATConsts.INITIAL_DIALOGUE_STATE;
-            var rpc = RolePlayCharacterAsset.LoadFromFile(iat.GetAllCharacterSources().FirstOrDefault().Source);
-            rpc.LoadAssociatedAssets();
-            iat.BindToRegistry(rpc.DynamicPropertiesRegistry);
-
-            iat.GetAllCharacterSources().ToList();
+            var rpc = iat.Characters.ElementAt(0);
             while (currentState != IATConsts.TERMINAL_DIALOGUE_STATE)
             {
                 var playerDialogs = iat.GetDialogueActionsByState(currentState);
@@ -70,6 +65,10 @@ namespace IntegratedAuthoringToolTutorial
                     Console.WriteLine("\n" + rpc.CharacterName + ": " + characterAction.Name + "\n");
                 }
             }
+
+
+            // The next step in this tutorrial is to start using the World Model to cause effects in the belief state of the characters
+
             Console.WriteLine("Dialogue Reached a Terminal State");
             Console.ReadKey();
         }

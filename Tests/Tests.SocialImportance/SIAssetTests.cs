@@ -1,5 +1,4 @@
 ﻿using Conditions.DTOs;
-using EmotionalAppraisal.DTOs;
 using KnowledgeBase;
 using NUnit.Framework;
 using SocialImportance;
@@ -104,7 +103,6 @@ namespace Tests.SocialImportance
 			};
 			#endregion
 			var si = new SocialImportanceAsset();
-			si.LoadFromDTO(siDTO);
             si.RegisterKnowledgeBase(kb);
 			return si;
 		}

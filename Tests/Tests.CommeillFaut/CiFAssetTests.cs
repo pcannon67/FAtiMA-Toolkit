@@ -33,7 +33,7 @@ namespace Tests.CommeillFaut
                {
                     ConditionSet = new string[] { "Has(Floor) = SELF"}
                },
-               Steps = new List<Name>() {(Name)"Start", (Name)"Answer", (Name)"Finish"},
+               Steps = "Start, Answer, Finish" ,
                InfluenceRules = new List<InfluenceRuleDTO>()
                {
 
@@ -85,7 +85,7 @@ namespace Tests.CommeillFaut
                {
                     ConditionSet = new string[] { "IsAgent(SELF) = True"}
                },
-               Steps = new List<Name>() {(Name)"Start"},
+               Steps = "Start",
                InfluenceRules = new List<InfluenceRuleDTO>()
                {
 
@@ -131,7 +131,7 @@ namespace Tests.CommeillFaut
 
             };
 
-       //     rpc.LoadAssociatedAssets();
+    
             return rpc;
 
         }
@@ -264,9 +264,7 @@ namespace Tests.CommeillFaut
             var rpc = BuildRPCAsset();
             var cif = BuildCIFAsset();
             cif.RegisterKnowledgeBase(rpc.m_kb);
-             rpc.LoadAssociatedAssets();
-
-
+            rpc.LoadAssociatedAssets(new GAIPS.Rage.AssetStorage());
 
             PopulateEventSet(eventSet);
 
@@ -320,9 +318,7 @@ namespace Tests.CommeillFaut
             var rpc = BuildRPCAsset();
             var cif = BuildCIFAsset();
             cif.RegisterKnowledgeBase(rpc.m_kb);
-             rpc.LoadAssociatedAssets();
-
-
+             rpc.LoadAssociatedAssets(new GAIPS.Rage.AssetStorage());
 
             PopulateEventSet(eventSet);
 
@@ -381,9 +377,7 @@ namespace Tests.CommeillFaut
             var rpc = BuildRPCAsset2();
             var cif = BuildCIFAsset();
             cif.RegisterKnowledgeBase(rpc.m_kb);
-             rpc.LoadAssociatedAssets();
-
-
+             rpc.LoadAssociatedAssets(new GAIPS.Rage.AssetStorage());
 
             PopulateEventSet(eventSet);
 
@@ -453,9 +447,7 @@ namespace Tests.CommeillFaut
             var rpc = BuildRPCAsset3();
             var cif = BuildCIFAsset();
             cif.RegisterKnowledgeBase(rpc.m_kb);
-             rpc.LoadAssociatedAssets();
-
-
+            rpc.LoadAssociatedAssets(new GAIPS.Rage.AssetStorage());
 
             PopulateEventSet(eventSet);
 
@@ -517,7 +509,7 @@ namespace Tests.CommeillFaut
             var rpc = BuildRPCAsset();
             var cif = BuildCIFAsset();
             cif.RegisterKnowledgeBase(rpc.m_kb);
-            rpc.LoadAssociatedAssets();
+            rpc.LoadAssociatedAssets(new GAIPS.Rage.AssetStorage());
 
 
 
@@ -648,7 +640,8 @@ namespace Tests.CommeillFaut
                 Description = "When I'm atracted to...",
                 StartingConditions = new Conditions.DTOs.ConditionSetDTO(),
                 InfluenceRules = new List<InfluenceRuleDTO>(),
-                Target = Name.BuildName("[x]")
+                Target = Name.BuildName("[x]"),
+                Steps = "-"
             };
 
             cif.AddOrUpdateExchange(seDTO);
@@ -678,7 +671,7 @@ namespace Tests.CommeillFaut
                 Name = Name.BuildName("Compliment"),
                 Description = "When we are friends..",
                 StartingConditions = new Conditions.DTOs.ConditionSetDTO(),
-                Steps = new List<Name>(),
+                Steps = "-",
                 InfluenceRules = new List<InfluenceRuleDTO>(),
                 Target = Name.BuildName("[x]")
             };
@@ -703,6 +696,7 @@ namespace Tests.CommeillFaut
             var se = new SocialExchange(seDTO);
             var totalCondsBefore = se.StartingConditions.Count;
             se.AddStartingCondition(Condition.Parse("[x] != Start"));
+
 
             Assert.AreEqual((totalCondsBefore + 1), se.StartingConditions.Count);
 
